@@ -4,6 +4,7 @@ nltk.download('punkt')
 nltk.download('wordnet')
 from nltk.stem import WordNetLemmatizer
 import json
+import os
 import pickle
 import numpy as np
 from keras.models import Sequential
@@ -11,8 +12,7 @@ from keras.layers import Dense, Activation, Dropout
 from keras.optimizers import SGD
 import random
 
-client = MongoClient('mongodb+srv://administrator:xdefied-12uiO-M4u8@sayabot.jzcyx.mongodb.net/intent?retryWrites=true&w=majority')
-
+client = MongoClient(os.environ.get('CONNECTION_STRING'))
 db = client.intents
 
 lemmatizer = WordNetLemmatizer()

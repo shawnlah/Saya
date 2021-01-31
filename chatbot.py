@@ -1,4 +1,5 @@
 import random
+import os
 from datetime import datetime
 import pickle
 import nltk
@@ -10,8 +11,7 @@ from nltk.stem import WordNetLemmatizer
 from keras.models import load_model
 
 model = load_model('chatbot_model.h5')
-client = MongoClient('mongodb+srv://administrator:xdefied-12uiO-M4u8@sayabot.jzcyx.mongodb.net/intent?retryWrites=true&w=majority')
-
+client = MongoClient(os.environ.get('CONNECTION_STRING'))
 db = client.intents
 words = pickle.load(open('words.pkl', 'rb'))
 classes = pickle.load(open('classes.pkl', 'rb'))
@@ -61,5 +61,9 @@ def chat():
     for intent in list_of_intents:
         if intent['name']== tag:
             result = random.choice(intent['responses'])
-            break
-    return result
+            return result
+    return random.choice([
+        "Unfortunately, my knowledge is limited.",
+        "Sorry, but I can't understand you.",
+        "Sorry, I'm not smart enough yet."
+    ])
